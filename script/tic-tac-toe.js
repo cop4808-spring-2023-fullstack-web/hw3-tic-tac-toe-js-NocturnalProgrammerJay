@@ -1,22 +1,23 @@
-  // SET GAME
-  let gameActive = true
-  let gameState = ["", "", "", "", "", "", "", "", ""]
-  let statusDisplay = document.querySelector(".status")
-  
-  // PLAYERS IDs
-  let currentPlayer = randomPlayerChoice() % 2 == 0 ? "X" : "O"
-  const player1 = currentPlayer
-  const player2 = currentPlayer === "X" ? "O" : "X"
-  
-  // SCORE BOARD
-  const scoreBoard = { player1: 0, player2: 0 }
-  
-  // STATUS BAR
-  let statusBar = document.querySelector(".players")
-  let player1Color
-  let player2Color
+// SET GAME
+let gameActive = true
+let gameState = ["", "", "", "", "", "", "", "", ""]
+let statusDisplay = document.querySelector(".status")
 
-  // EMIT ACTION LISTENERS
+// PLAYERS IDs
+let currentPlayer = randomPlayerChoice() % 2 == 0 ? "X" : "O"
+// let bot = false
+const player1 = currentPlayer
+const player2 = currentPlayer === "X" ? "O" : "X"
+
+// SCORE BOARD
+const scoreBoard = { player1: 0, player2: 0 }
+
+// STATUS BAR
+let statusBar = document.querySelector(".players")
+let player1Color
+let player2Color
+
+// EMIT ACTION LISTENERS
 document.querySelectorAll(".cell").forEach((cell) => cell.addEventListener("click", handleCellClick))
 document.querySelector(".restart").addEventListener("click", handleRestartGame)
 
@@ -32,14 +33,21 @@ const buildScoreBoard = () => {
     player2Color = "red"
   }
 
+  // document.querySelectorAll(".cell").forEach((cell, idx) => {
+  //   console.log(cell)
+  // })
+
   statusBar.style.height = "50px"
+  statusBar.style.color = "black"
   statusBar.style.padding = "5px"
-  statusBar.style.border = "solid #414141"
+  statusBar.style.backgroundColor = "white"
+  statusBar.style.border = "solid black"
   statusBar.style.width = statusBar.previousSibling.width
   statusBar.style.borderRadius = "5%"
   statusBar.innerHTML = `<p> <b style="color:${player1Color}">Player 1:</b> ${scoreBoard.player1} <b>|</b> <b style="color:${player2Color}">Player 2:</b> ${scoreBoard.player2} </p>`
 }
 
+// SELECTS RANDOM PLAYER
 function randomPlayerChoice(){
   return Math.floor(Math.random() * 10 + 1)
 }
@@ -49,6 +57,7 @@ const winningMessage = () => `Player ${currentPlayer} has won!`
 const drawMessage = () => `Game ended in a draw!`
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`
 
+// WINNING COMBINATIONS
 const winningConditions = [
   [0, 1, 2],
   [3, 4, 5],
@@ -59,6 +68,7 @@ const winningConditions = [
   [0, 4, 8],
   [2, 4, 6],
 ]
+
 // UPDATE GAME STATE
 function handleCellPlayed(clickedCell, clickedCellIndex) {
   gameState[clickedCellIndex] = currentPlayer
@@ -113,7 +123,6 @@ function handleResultValidation() {
     if (a === b && b === c) {
       roundWon = true
 
-      // highlight tiles
       document.querySelectorAll(".cell").forEach((cell, idx) => {
         if (
           cell.getAttribute("data-cell-index") === winCondition[0].toString() ||
@@ -139,7 +148,7 @@ function handleResultValidation() {
 
     statusDisplay.innerHTML = winningMessage()
     gameActive = false
-    statusDisplay.style.color = "rgb(251,100,204)"
+    statusDisplay.style.color = currentPlayer === player1 ? `${player1Color}` : `${player2Color}`
     buildScoreBoard()
     return
   }
@@ -149,7 +158,7 @@ function handleResultValidation() {
   if (roundDraw) {
     statusDisplay.innerHTML = drawMessage()
     gameActive = false
-    statusDisplay.style.color = "rgb(251,100,204)"
+    statusDisplay.style.color = "orange"
     buildScoreBoard()
     return
   }
@@ -159,6 +168,7 @@ function handleResultValidation() {
 
 // PLAYER TURN
 function handleCellClick(clickedCellEvent) {
+  clickedCellEvent.target.style.color = currentPlayer === player1 ? `${player1Color}` : `${player2Color}`
   const clickedCell = clickedCellEvent.target
   const clickedCellIndex = parseInt(
     clickedCell.getAttribute("data-cell-index")
@@ -178,19 +188,19 @@ function handleRestartGame() {
   currentPlayer = player1
   gameState = ["", "", "", "", "", "", "", "", ""]
 
-  statusDisplay.style.color = "rgb(65, 65, 65)"
+  statusDisplay.style.color = "black"
 
   statusDisplay.innerHTML = currentPlayerTurn()
   document.querySelectorAll(".cell").forEach((cell, idx) => {
     cell.innerHTML = ""
-    cell.style.border = "6px solid rgb(65, 65, 65)"
+    cell.style.border = "6px solid black"
     cell.style.zIndex = 0
   })
-
 
   if(currentPlayer === "O") computer()
 }
 
+// UPDATE UI STATE
 buildScoreBoard()
 statusDisplay.innerHTML = currentPlayerTurn()
 
