@@ -29,8 +29,9 @@ The popular Tic-tac-toe game, implemented with vanilla JavaScript.
 
 
 
-## Screenshot
-<img src="./tic-tac-toe-screenshot.png">
+## Gif
+![TicTacToeGif](https://user-images.githubusercontent.com/96387037/218341508-072ec5eb-958a-4efa-afa7-b510d08b8d91.gif)
+
 
 
 
