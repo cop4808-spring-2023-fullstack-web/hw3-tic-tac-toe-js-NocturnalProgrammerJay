@@ -31,14 +31,6 @@ const buildScoreBoard = () => {
     player1Color = ""
     player2Color = "#ab20fd"
   }
-
-  statusBar.style.height = "50px"
-  statusBar.style.color = "black"
-  statusBar.style.padding = "5px"
-  statusBar.style.backgroundColor = "white"
-  statusBar.style.border = "solid black"
-  statusBar.style.width = statusBar.previousSibling.width
-  statusBar.style.borderRadius = "5%"
   statusBar.innerHTML = `<p> <b style="color:${player1Color}">Player 1:</b> ${scoreBoard.player1} <b>|</b> <b style="color:${player2Color}">Player 2:</b> ${scoreBoard.player2} </p>`
 }
 
@@ -80,16 +72,13 @@ function computer(){
 
   while(true){
     let num = Math.floor((Math.random()*9))
-
-    // document.querySelector(`[data-cell-index="${0}"]`)
-
-
+    
     if(spacesAvailable.includes(num)){
       document.querySelectorAll(".cell").forEach(cell => {
         if (cell.getAttribute("data-cell-index") === num.toString()){
           statusDisplay.innerHTML = currentPlayerTurn()
           setTimeout(()=>{
-            cell.click()
+            document.querySelector(`[data-cell-index="${num}"]`).click()
           }, 1200)
         }
       })
@@ -122,7 +111,6 @@ function handleResultValidation() {
       roundWon = true
 
       document.querySelectorAll(".cell").forEach((cell, idx) => {
-
         if (
           cell.getAttribute("data-cell-index") === winCondition[0].toString() ||
           cell.getAttribute("data-cell-index") === winCondition[1].toString() ||

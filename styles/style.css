@@ -59,6 +59,15 @@ a:visited {
     color: white;
 }
 
+.players {
+    height: 50px;
+    color: black;
+    padding: 5px;
+    background-Color: white;
+    border: solid black;
+    border-radius: 5%;
+}
+
 /*************************************/
 /******        Game Status       *****/
 /*************************************/
