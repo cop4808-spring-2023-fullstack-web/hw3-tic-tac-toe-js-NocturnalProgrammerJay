@@ -5,7 +5,6 @@ let statusDisplay = document.querySelector(".status")
 
 // PLAYERS IDs
 let currentPlayer = randomPlayerChoice() % 2 == 0 ? "X" : "O"
-// let bot = false
 const player1 = currentPlayer
 const player2 = currentPlayer === "X" ? "O" : "X"
 
@@ -24,18 +23,14 @@ document.querySelector(".restart").addEventListener("click", handleRestartGame)
 // UPDATE UI
 const buildScoreBoard = () => {
   if (currentPlayer === player1) {
-    player1Color = "blue"
+    player1Color = "#00BCE3"
     player2Color = ""
   }
 
   if (currentPlayer === player2) {
     player1Color = ""
-    player2Color = "red"
+    player2Color = "#ab20fd"
   }
-
-  // document.querySelectorAll(".cell").forEach((cell, idx) => {
-  //   console.log(cell)
-  // })
 
   statusBar.style.height = "50px"
   statusBar.style.color = "black"
@@ -86,6 +81,9 @@ function computer(){
   while(true){
     let num = Math.floor((Math.random()*9))
 
+    // document.querySelector(`[data-cell-index="${0}"]`)
+
+
     if(spacesAvailable.includes(num)){
       document.querySelectorAll(".cell").forEach(cell => {
         if (cell.getAttribute("data-cell-index") === num.toString()){
@@ -124,12 +122,14 @@ function handleResultValidation() {
       roundWon = true
 
       document.querySelectorAll(".cell").forEach((cell, idx) => {
+
         if (
           cell.getAttribute("data-cell-index") === winCondition[0].toString() ||
           cell.getAttribute("data-cell-index") === winCondition[1].toString() ||
           cell.getAttribute("data-cell-index") === winCondition[2].toString()
         ) {
           document.querySelector(`.cell--${idx.toString()}`).style.zIndex = 1
+          document.querySelector(`.cell--${idx.toString()}`).style.border= 0.5
           document.querySelector(`.cell--${idx.toString()}`).style.border = currentPlayer === player1 ? `6px solid ${player1Color}` : `6px solid ${player2Color}`
         }
       })
@@ -158,7 +158,7 @@ function handleResultValidation() {
   if (roundDraw) {
     statusDisplay.innerHTML = drawMessage()
     gameActive = false
-    statusDisplay.style.color = "orange"
+    statusDisplay.style.color = "rgb(251,100,204)"
     buildScoreBoard()
     return
   }
@@ -203,5 +203,3 @@ function handleRestartGame() {
 // UPDATE UI STATE
 buildScoreBoard()
 statusDisplay.innerHTML = currentPlayerTurn()
-
-
